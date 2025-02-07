@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: server-ordering
+    ports:
+      - '3001:3000'
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db-food-ordering
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_DATABASE=food-ordering
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8
+    container_name: db-food-ordering
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: food-ordering
+    ports:
+      - '3307:3306'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
